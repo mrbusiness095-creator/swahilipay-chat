@@ -45,8 +45,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Swahili-paychat — Wafundishe wazungu Kiswahili, ulipwe" },
       { name: "description", content: "Jiunge Swahili-paychat: fundisha wazungu Kiswahili na ulipwe kupitia M-Pesa, Airtel, Halopesa na Mix by Yas moja kwa moja kwenye simu yako." },
-      { property: "og:title", content: "Swahili-paychat — Fundisha, Ulipwe" },
-      { property: "og:description", content: "Wafundishe wazungu Kiswahili na ulipwe kila siku kwa M-Pesa, Airtel, Halopesa na Mix by Yas." },
+      { property: "og:title", content: "Swahili-paychat — Wafundishe wazungu Kiswahili, ulipwe" },
+      { property: "og:description", content: "Jiunge Swahili-paychat: fundisha wazungu Kiswahili na ulipwe kupitia M-Pesa, Airtel, Halopesa na Mix by Yas moja kwa moja kwenye simu yako." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
