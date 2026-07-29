@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import logoAsset from "@/assets/paychat-logo.png.asset.json";
 
 const WHATSAPP_NUMBER = "255743871339";
 const WHATSAPP_DISPLAY = "0743 871 339";
@@ -7,18 +8,18 @@ const GROUP_LINK = "https://chat.whatsapp.com/HJR16xnRf53J54yvIrIJwA?s=cl&p=a&il
 const REGISTER_LINK = "https://kozenasite.site/register?ref=Salma255";
 
 const guests = [
-  { name: "Emma W.", country: "United Kingdom", flag: "🇬🇧", age: 24, status: "Looking to talk", price: "$14.5", tzs: "37,700", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80" },
-  { name: "Alexandro G.", country: "Italy", flag: "🇮🇹", age: 34, status: "Looking to talk", price: "$13.8", tzs: "35,880", img: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400&auto=format&fit=crop&q=80" },
-  { name: "Lucas M.", country: "Germany", flag: "🇩🇪", age: 33, status: "typing…", price: "$12.8", tzs: "33,280", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80" },
-  { name: "David K.", country: "USA", flag: "🇺🇸", age: 45, status: "Looking to talk", price: "$16", tzs: "41,600", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80" },
-  { name: "Maria C.", country: "Brazil", flag: "🇧🇷", age: 29, status: "typing…", price: "$13.5", tzs: "35,100", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&auto=format&fit=crop&q=80" },
-  { name: "Ji-Woo N.", country: "South Korea", flag: "🇰🇷", age: 25, status: "typing…", price: "$15.5", tzs: "40,300", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format&fit=crop&q=80" },
-  { name: "Kenji T.", country: "Japan", flag: "🇯🇵", age: 41, status: "Looking to talk", price: "$14", tzs: "36,400", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80" },
-  { name: "Sophie L.", country: "France", flag: "🇫🇷", age: 26, status: "Looking to talk", price: "$14.2", tzs: "36,920", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80" },
-  { name: "Anna S.", country: "Netherlands", flag: "🇳🇱", age: 31, status: "typing…", price: "$14.4", tzs: "37,440", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80" },
-  { name: "Isabella R.", country: "Spain", flag: "🇪🇸", age: 28, status: "Looking to talk", price: "$13.7", tzs: "35,620", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80" },
-  { name: "Ahmed F.", country: "UAE", flag: "🇦🇪", age: 37, status: "typing…", price: "$16.5", tzs: "42,900", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=400&auto=format&fit=crop&q=80" },
-  { name: "Priya S.", country: "India", flag: "🇮🇳", age: 27, status: "typing…", price: "$12.5", tzs: "32,500", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80" },
+  { name: "Emma W.", country: "United Kingdom", flag: "🇬🇧", age: 24, status: "Looking to talk", price: "$14.5", tzs: "37,700", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80", intro: "Hi! I'm Emma from London. I'd love to learn Swahili!" },
+  { name: "Alexandro G.", country: "Italy", flag: "🇮🇹", age: 34, status: "Looking to talk", price: "$13.8", tzs: "35,880", img: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400&auto=format&fit=crop&q=80", intro: "Ciao! I want to visit Tanzania — teach me some words!" },
+  { name: "Lucas M.", country: "Germany", flag: "🇩🇪", age: 33, status: "typing…", price: "$12.8", tzs: "33,280", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80", intro: "Hallo! I'm Lucas from Berlin. I want to learn Swahili!" },
+  { name: "David K.", country: "USA", flag: "🇺🇸", age: 45, status: "Looking to talk", price: "$16", tzs: "41,600", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80", intro: "Hey! David here from NYC. Excited to chat with you!" },
+  { name: "Maria C.", country: "Brazil", flag: "🇧🇷", age: 29, status: "typing…", price: "$13.5", tzs: "35,100", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&auto=format&fit=crop&q=80", intro: "Oi! I'm Maria. Swahili sounds beautiful — help me learn!" },
+  { name: "Ji-Woo N.", country: "South Korea", flag: "🇰🇷", age: 25, status: "typing…", price: "$15.5", tzs: "40,300", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format&fit=crop&q=80", intro: "Annyeong! I want to make friends in Africa." },
+  { name: "Kenji T.", country: "Japan", flag: "🇯🇵", age: 41, status: "Looking to talk", price: "$14", tzs: "36,400", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80", intro: "Konnichiwa! Please teach me basic Swahili greetings." },
+  { name: "Sophie L.", country: "France", flag: "🇫🇷", age: 26, status: "Looking to talk", price: "$14.2", tzs: "36,920", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80", intro: "Bonjour! I'd love to learn Swahili with you." },
+  { name: "Anna S.", country: "Netherlands", flag: "🇳🇱", age: 31, status: "typing…", price: "$14.4", tzs: "37,440", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80", intro: "Hoi! Anna here. Let's chat and learn together!" },
+  { name: "Isabella R.", country: "Spain", flag: "🇪🇸", age: 28, status: "Looking to talk", price: "$13.7", tzs: "35,620", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80", intro: "Hola! I'm planning a trip to Zanzibar — help me!" },
+  { name: "Ahmed F.", country: "UAE", flag: "🇦🇪", age: 37, status: "typing…", price: "$16.5", tzs: "42,900", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=400&auto=format&fit=crop&q=80", intro: "Marhaba! I do business in East Africa. Teach me!" },
+  { name: "Priya S.", country: "India", flag: "🇮🇳", age: 27, status: "typing…", price: "$12.5", tzs: "32,500", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80", intro: "Namaste! I love learning new languages — Swahili next!" },
 ];
 
 const payouts = [
@@ -31,6 +32,12 @@ const payouts = [
   { net: "M-Pesa", user: "Neema J.", amount: "+28,000", when: "dakika 7 zilizopita" },
   { net: "Airtel", user: "Izack P.", amount: "+55,000", when: "dakika 9 zilizopita" },
   { net: "Halopesa", user: "Baraka A.", amount: "+65,000", when: "dakika 12 zilizopita" },
+];
+
+const testimonials = [
+  { name: "Neema J.", city: "Dar es Salaam", img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80", text: "Nimelipwa mara 3 wiki hii kupitia M-Pesa. Kazi ni rahisi — kuchat tu na kufundisha maneno ya Kiswahili!", earned: "185,000 TZS" },
+  { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80", text: "Nilianza kwa mtaji wa 14,500 TZS. Mwezi mmoja nimeshavuka 500,000 TZS. Swahili-paychat ni halali!", earned: "512,000 TZS" },
+  { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80", text: "Napenda kwa sababu naweza kufanya kazi nikiwa nyumbani. Wageni ni wapole na malipo yanakuja Airtel haraka.", earned: "263,500 TZS" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -47,9 +54,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+type Guest = (typeof guests)[number];
+
 function Index() {
   const [online, setOnline] = useState(21980);
   const [balance, setBalance] = useState(148500);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
+  const [showRegisterGate, setShowRegisterGate] = useState(false);
+  const [chatGuest, setChatGuest] = useState<Guest | null>(null);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -63,49 +75,42 @@ function Index() {
     <div className="min-h-screen">
       {/* NAV */}
       <header className="sticky top-0 z-40 px-4 pt-4">
-        <nav className="glass mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3">
-          <a href="#" className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--gradient-gold)] text-primary-foreground font-bold shadow-[var(--shadow-gold)]">
-              S
-            </div>
-            <div className="leading-tight">
-              <div className="font-display text-lg font-bold">
+        <nav className="glass mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3">
+          <a href="#" className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <img
+              src={logoAsset.url}
+              alt="Swahili-paychat logo"
+              className="h-11 w-11 shrink-0 rounded-xl bg-white/90 object-contain p-0.5 shadow-[var(--shadow-gold)]"
+            />
+            <div className="min-w-0 leading-tight">
+              <div className="font-display truncate text-base font-bold sm:text-lg">
                 <span className="gold-text">Swahili</span>-paychat
               </div>
-              <div className="text-[11px] text-muted-foreground">Fundisha • Ulipwe kila siku</div>
+              <div className="truncate text-[10px] text-muted-foreground sm:text-[11px]">
+                Fundisha • Ulipwe kila siku
+              </div>
             </div>
           </a>
 
-          {/* Balance top-right */}
-          <div className="flex items-center gap-2">
-            <div className="hidden sm:flex flex-col items-end rounded-xl gold-border bg-black/30 px-3 py-1.5">
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Balance</span>
-              <span className="gold-text text-sm font-bold tabular-nums">
-                {balance.toLocaleString()} TZS
-              </span>
-            </div>
-            <a href={REGISTER_LINK} target="_blank" rel="noreferrer" className="btn-gold rounded-xl px-4 py-2 text-sm">
-              Jisajili →
-            </a>
-          </div>
+          {/* Balance + Jisajili top-right (balance is clickable to withdraw) */}
+          <button
+            type="button"
+            onClick={() => setWithdrawOpen(true)}
+            className="shrink-0 flex flex-col items-end rounded-xl gold-border bg-black/40 px-3 py-1.5 text-right hover:bg-black/60 transition"
+            aria-label="Toa fedha"
+          >
+            <span className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
+              Balance · Toa
+            </span>
+            <span className="gold-text text-xs font-bold tabular-nums sm:text-sm">
+              {balance.toLocaleString()} TZS
+            </span>
+          </button>
         </nav>
       </header>
 
-      {/* Mobile balance strip */}
-      <div className="mx-auto mt-3 max-w-6xl px-4 sm:hidden">
-        <div className="glass flex items-center justify-between rounded-2xl px-4 py-3">
-          <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Balance yako</div>
-            <div className="gold-text text-lg font-bold tabular-nums">{balance.toLocaleString()} TZS</div>
-          </div>
-          <a href={REGISTER_LINK} target="_blank" rel="noreferrer" className="btn-gold rounded-xl px-4 py-2 text-xs">
-            Toa fedha
-          </a>
-        </div>
-      </div>
-
       {/* HERO */}
-      <section className="mx-auto mt-10 grid max-w-6xl gap-10 px-4 md:mt-16 md:grid-cols-[1.15fr_.85fr]">
+      <section className="mx-auto mt-8 grid max-w-6xl gap-10 px-4 md:mt-16 md:grid-cols-[1.15fr_.85fr]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full gold-border bg-black/30 px-3 py-1 text-xs">
             <span className="live-dot inline-block h-2 w-2 rounded-full bg-[oklch(0.8_0.18_140)]" />
@@ -152,7 +157,7 @@ function Index() {
           <div className="float-anim glass w-[220px] rounded-[28px] p-3 sm:w-[240px]">
             <div className="rounded-2xl bg-black/60 p-2">
               <div className="flex items-center gap-2 px-1 pb-2">
-                <div className="h-6 w-6 rounded-full bg-[var(--gradient-gold)]" />
+                <img src={logoAsset.url} alt="" className="h-6 w-6 rounded-full bg-white/90 object-contain p-0.5" />
                 <div className="text-[11px] font-semibold">SWAHILI-PAYCHAT</div>
               </div>
               <a
@@ -184,6 +189,35 @@ function Index() {
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <section className="mx-auto mt-16 max-w-6xl px-4 md:mt-20">
+        <div className="mb-6 text-center">
+          <div className="text-xs uppercase tracking-[.25em] text-[color:var(--gold)]">Ushuhuda</div>
+          <h2 className="mt-1 text-2xl font-bold md:text-3xl">Wanachama wanasemaje?</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Watu halisi, malipo halisi kupitia M-Pesa, Airtel, Halopesa na Mix by Yas.</p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {testimonials.map((t) => (
+            <div key={t.name} className="glass rounded-2xl p-5">
+              <div className="flex items-center gap-3">
+                <img src={t.img} alt={t.name} className="h-12 w-12 rounded-full object-cover gold-border" />
+                <div className="min-w-0">
+                  <div className="truncate font-semibold">{t.name}</div>
+                  <div className="truncate text-xs text-muted-foreground">{t.city}</div>
+                </div>
+                <div className="ml-auto text-[10px] text-[color:var(--gold)]">★★★★★</div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">"{t.text}"</p>
+              <div className="mt-4 flex items-center justify-between border-t border-[color:var(--border)] pt-3">
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Amelipwa</span>
+                <span className="gold-text text-sm font-bold tabular-nums">{t.earned}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* GUESTS */}
       <section className="mx-auto mt-20 max-w-6xl px-4">
         <div className="mb-6 flex items-end justify-between">
@@ -212,14 +246,13 @@ function Index() {
                 </div>
                 <div className="mt-1 text-xs text-muted-foreground">💬 {g.status}</div>
                 <div className="mt-3 flex items-center justify-between">
-                  <a
-                    href={REGISTER_LINK}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setChatGuest(g)}
                     className="btn-gold rounded-lg px-3 py-1.5 text-xs"
                   >
                     Start
-                  </a>
+                  </button>
                   <div className="text-right leading-tight">
                     <div className="gold-text text-sm font-bold">{g.price}</div>
                     <div className="text-[10px] text-muted-foreground">{g.tzs} TZS</div>
@@ -313,6 +346,24 @@ function Index() {
       >
         <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.02 0C5.39 0 .02 5.37.02 12c0 2.11.55 4.17 1.6 6L0 24l6.2-1.62A11.98 11.98 0 0 0 12.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.5-8.52ZM12.02 22c-1.86 0-3.68-.5-5.27-1.44l-.38-.22-3.68.96.98-3.59-.25-.37A9.94 9.94 0 0 1 2.02 12C2.02 6.48 6.5 2 12.02 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22.02 12c0 5.52-4.48 10-10 10Zm5.47-7.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.5 1.69.64.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" /></svg>
       </a>
+
+      {/* WITHDRAW MODAL */}
+      {withdrawOpen && (
+        <WithdrawModal
+          balance={balance}
+          onClose={() => setWithdrawOpen(false)}
+          onSubmit={() => {
+            setWithdrawOpen(false);
+            setShowRegisterGate(true);
+          }}
+        />
+      )}
+
+      {/* REGISTER GATE */}
+      {showRegisterGate && <RegisterGate onClose={() => setShowRegisterGate(false)} />}
+
+      {/* CHAT MODAL */}
+      {chatGuest && <ChatWindow guest={chatGuest} onClose={() => setChatGuest(null)} />}
     </div>
   );
 }
@@ -323,6 +374,218 @@ function Stat({ label, value, sub }: { label: string; value: string; sub: string
       <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
       <div className="mt-1 gold-text text-2xl font-bold">{value}</div>
       <div className="mt-0.5 text-[11px] text-muted-foreground truncate">{sub}</div>
+    </div>
+  );
+}
+
+function WithdrawModal({
+  balance,
+  onClose,
+  onSubmit,
+}: {
+  balance: number;
+  onClose: () => void;
+  onSubmit: () => void;
+}) {
+  const [network, setNetwork] = useState("M-Pesa");
+  const [phone, setPhone] = useState("");
+  const [amount, setAmount] = useState("");
+
+  return (
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/80 px-4" onClick={onClose}>
+      <div
+        className="glass w-full max-w-md rounded-2xl p-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-[color:var(--gold)]">Toa fedha</div>
+            <div className="text-lg font-bold">Balance yako</div>
+            <div className="gold-text mt-0.5 text-2xl font-bold tabular-nums">
+              {balance.toLocaleString()} TZS
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="grid h-9 w-9 place-items-center rounded-full gold-border bg-black/40 hover:bg-black/60"
+            aria-label="Funga"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+          className="mt-5 space-y-4"
+        >
+          <div>
+            <label className="text-xs font-semibold text-muted-foreground">Mtandao</label>
+            <div className="mt-2 grid grid-cols-4 gap-2">
+              {["M-Pesa", "Airtel", "Halopesa", "Mix by Yas"].map((n) => (
+                <button
+                  type="button"
+                  key={n}
+                  onClick={() => setNetwork(n)}
+                  className={`rounded-lg border px-2 py-2 text-[11px] font-semibold transition ${
+                    network === n
+                      ? "gold-border bg-[var(--gradient-gold)] text-primary-foreground"
+                      : "border-[color:var(--border)] bg-black/30 text-muted-foreground hover:bg-black/50"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-muted-foreground">Namba ya simu</label>
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              inputMode="tel"
+              placeholder="07XX XXX XXX"
+              required
+              className="mt-2 w-full rounded-lg gold-border bg-black/40 px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)]"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-muted-foreground">Kiasi (TZS)</label>
+            <input
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              inputMode="numeric"
+              placeholder="mfano 50000"
+              required
+              className="mt-2 w-full rounded-lg gold-border bg-black/40 px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)]"
+            />
+          </div>
+
+          <button type="submit" className="btn-gold w-full rounded-xl py-3 text-sm font-bold">
+            🟢 Toa fedha sasa →
+          </button>
+          <p className="text-center text-[10px] text-muted-foreground">
+            Miamala inatumwa mara moja kupitia mtandao uliochagua.
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function RegisterGate({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[70] grid place-items-center bg-black/85 px-4" onClick={onClose}>
+      <div
+        className="glass w-full max-w-md rounded-2xl gold-border p-6 text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--gradient-gold)] text-3xl shadow-[var(--shadow-gold)]">
+          🔒
+        </div>
+        <h3 className="mt-4 text-xl font-bold">Jisajili ili utoe pesa</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Ili kuhakikisha pesa yako inafika salama, jisajili kwa mtaji wa{" "}
+          <b className="gold-text">TSh 14,500</b> tu kupata akaunti kamili ya Swahili-paychat.
+        </p>
+
+        <ul className="mt-5 space-y-2 text-left text-sm">
+          <li>✅ Toa pesa moja kwa moja M-Pesa, Airtel, Halopesa, Mix by Yas.</li>
+          <li>✅ Endelea kuchat na wageni bila kikomo.</li>
+          <li>✅ Uanze kulipwa kwa kila mazungumzo.</li>
+        </ul>
+
+        <a
+          href={REGISTER_LINK}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-gold mt-6 block rounded-xl py-3 text-sm font-bold"
+        >
+          🟢 JISAJILI SASA →
+        </a>
+        <button
+          onClick={onClose}
+          className="mt-3 w-full rounded-xl gold-border bg-black/40 py-2.5 text-sm font-semibold hover:bg-black/60"
+        >
+          Funga
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
+  const [messages, setMessages] = useState<{ from: "them" | "me"; text: string }[]>([
+    { from: "them", text: guest.intro },
+  ]);
+  const [draft, setDraft] = useState("");
+
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!draft.trim()) return;
+    setMessages((m) => [...m, { from: "me", text: draft }]);
+    setDraft("");
+  };
+
+  return (
+    <div className="fixed inset-0 z-[60] flex flex-col bg-[color:var(--background)]">
+      {/* Header */}
+      <div className="glass flex items-center gap-3 px-4 py-3">
+        <img src={guest.img} alt={guest.name} className="h-11 w-11 rounded-full object-cover gold-border" />
+        <div className="min-w-0 flex-1">
+          <div className="truncate font-semibold">
+            {guest.name} <span>{guest.flag}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-[oklch(0.8_0.18_140)]">
+            <span className="live-dot h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.18_140)]" />
+            online sasa
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="grid h-9 w-9 place-items-center rounded-full gold-border bg-black/40 hover:bg-black/60"
+          aria-label="Funga"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-5">
+        {messages.map((m, i) => (
+          <div
+            key={i}
+            className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+              m.from === "them"
+                ? "bg-black/40 gold-border"
+                : "ml-auto bg-[var(--gradient-gold)] text-primary-foreground"
+            }`}
+          >
+            {m.text}
+          </div>
+        ))}
+      </div>
+
+      {/* Composer */}
+      <form onSubmit={send} className="glass flex items-center gap-2 border-t border-[color:var(--border)] px-3 py-3">
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          placeholder="Andika ujumbe wako..."
+          className="flex-1 rounded-full gold-border bg-black/40 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)]"
+        />
+        <button
+          type="submit"
+          className="grid h-11 w-11 place-items-center rounded-full bg-[var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
+          aria-label="Tuma"
+        >
+          ➤
+        </button>
+      </form>
     </div>
   );
 }
