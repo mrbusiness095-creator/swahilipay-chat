@@ -264,7 +264,7 @@ function Index() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((t) => (
+          {shownTestimonials.map((t) => (
             <div key={t.name} className="glass rounded-2xl p-5">
               <div className="flex items-center gap-3">
                 <img src={t.img} alt={t.name} className="h-12 w-12 rounded-full object-cover gold-border" />
