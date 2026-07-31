@@ -217,43 +217,8 @@ function Index() {
             <Stat label="Kiwango" value="14.5K" sub="TZS mtaji" />
           </div>
         </div>
-
-        {/* Smaller video card */}
-        <div className="flex items-center justify-center">
-          <div className="float-anim glass w-[220px] rounded-[28px] p-3 sm:w-[240px]">
-            <div className="rounded-2xl bg-black/60 p-2">
-              <div className="flex items-center gap-2 px-1 pb-2">
-                <img src={logoAsset.url} alt="" className="h-6 w-6 rounded-full bg-white/90 object-contain p-0.5" />
-                <div className="text-[11px] font-semibold">SWAHILI-PAYCHAT</div>
-              </div>
-              <a
-                href="https://www.youtube.com/shorts/GeDazfyq7Wc"
-                target="_blank"
-                rel="noreferrer"
-                className="relative block overflow-hidden rounded-xl"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80"
-                  alt="Video ya maelekezo"
-                  className="h-[280px] w-full object-cover"
-                />
-                <div className="absolute inset-0 grid place-items-center bg-black/25">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-[var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]">
-                    ▶
-                  </div>
-                </div>
-                <div className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px]">
-                  <span className="live-dot mr-1 inline-block h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.18_140)]" />
-                  LIVE
-                </div>
-              </a>
-              <div className="mt-2 px-1 text-[11px] text-muted-foreground">
-                Tazama maelekezo ya hatua kwa hatua.
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
+
 
       {/* TESTIMONIALS */}
       <section className="mx-auto mt-16 max-w-6xl px-4 md:mt-20">
