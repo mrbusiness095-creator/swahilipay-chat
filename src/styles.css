@@ -136,3 +136,11 @@
 @utility float-anim {
   animation: float 6s ease-in-out infinite;
 }
+
+@keyframes wa-blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 oklch(0.68 0.17 150 / 60%); }
+  50% { opacity: .55; box-shadow: 0 0 0 14px oklch(0.68 0.17 150 / 0%); }
+}
+@utility wa-blink {
+  animation: wa-blink 1.2s ease-in-out infinite;
+}
