@@ -118,18 +118,24 @@ type Guest = (typeof guests)[number];
 
 function Index() {
   const [online, setOnline] = useState(21980);
-  const [balance, setBalance] = useState(148500);
+  const [balance, setBalance] = useState(0);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [showRegisterGate, setShowRegisterGate] = useState(false);
   const [chatGuest, setChatGuest] = useState<Guest | null>(null);
+  const [paid, setPaid] = useState<{ guest: Guest; amount: number } | null>(null);
+  const [shownTestimonials, setShownTestimonials] = useState(testimonials.slice(0, 3));
+
+  useEffect(() => {
+    setShownTestimonials(pickThree());
+  }, []);
 
   useEffect(() => {
     const t = setInterval(() => {
       setOnline((n) => n + Math.floor(Math.random() * 5) - 2);
-      setBalance((b) => b + Math.floor(Math.random() * 2500));
     }, 3000);
     return () => clearInterval(t);
   }, []);
+
 
   return (
     <div className="min-h-screen">
