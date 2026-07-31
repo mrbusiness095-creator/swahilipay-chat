@@ -344,23 +344,8 @@ function Index() {
             <a href={REGISTER_LINK} target="_blank" rel="noreferrer" className="btn-gold rounded-xl px-6 py-3 text-sm">
               Jisajili sasa →
             </a>
-            <a
-              href={GROUP_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl gold-border bg-black/30 px-6 py-3 text-sm font-semibold hover:bg-black/50"
-            >
-              Jiunge Group ya WhatsApp
-            </a>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl gold-border bg-black/30 px-6 py-3 text-sm font-semibold hover:bg-black/50"
-            >
-              📞 WhatsApp: {WHATSAPP_DISPLAY}
-            </a>
           </div>
+
         </div>
       </section>
 
