@@ -176,8 +176,9 @@ function Index() {
       </header>
 
       {/* HERO */}
-      <section className="mx-auto mt-8 grid max-w-6xl gap-10 px-4 md:mt-16 md:grid-cols-[1.15fr_.85fr]">
-        <div>
+      <section className="mx-auto mt-8 max-w-6xl px-4 md:mt-16">
+        <div className="max-w-3xl">
+
           <div className="inline-flex items-center gap-2 rounded-full gold-border bg-black/30 px-3 py-1 text-xs">
             <span className="live-dot inline-block h-2 w-2 rounded-full bg-[oklch(0.8_0.18_140)]" />
             <span className="tabular-nums font-semibold">{online.toLocaleString()}</span>
