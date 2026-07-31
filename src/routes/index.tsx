@@ -38,7 +38,67 @@ const testimonials = [
   { name: "Neema J.", city: "Dar es Salaam", img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80", text: "Nimelipwa mara 3 wiki hii kupitia M-Pesa. Kazi ni rahisi — kuchat tu na kufundisha maneno ya Kiswahili!", earned: "185,000 TZS" },
   { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80", text: "Nilianza kwa mtaji wa 14,500 TZS. Mwezi mmoja nimeshavuka 500,000 TZS. Swahili-paychat ni halali!", earned: "512,000 TZS" },
   { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80", text: "Napenda kwa sababu naweza kufanya kazi nikiwa nyumbani. Wageni ni wapole na malipo yanakuja Airtel haraka.", earned: "263,500 TZS" },
+  { name: "Shadrich M.", city: "Dodoma", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80", text: "Mazungumzo matano tu kwa siku yananitosha kulipa kodi ya nyumba. Halopesa inaingia dakika chache.", earned: "342,000 TZS" },
+  { name: "Queen B.", city: "Mbeya", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80", text: "Nilikuwa sina kazi. Sasa nafundisha wazungu maneno kama ASANTE na KARIBU na nalipwa kila siku.", earned: "228,400 TZS" },
+  { name: "Kelvin M.", city: "Tanga", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80", text: "Mix by Yas yangu inapokea malipo bila usumbufu. Wageni wapo wengi masaa yote ya usiku na mchana.", earned: "410,900 TZS" },
+  { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80", text: "Kila mazungumzo yanaisha nalipwa papo hapo. Sikuamini mpaka nilipopokea SMS ya M-Pesa.", earned: "156,700 TZS" },
+  { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&auto=format&fit=crop&q=80", text: "Naitumia simu yangu tu. Nafundisha Kiswahili, wanafurahi, na mimi napata pesa ya matumizi.", earned: "298,300 TZS" },
 ];
+
+function pickThree() {
+  const pool = [...testimonials];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, 3);
+}
+
+/** Mazungumzo halisi: mgeni anauliza, mtumiaji anafundisha (maneno yametiwa alama **neno**) */
+const chatScript: { ask: string; suggest: string; reply: string }[] = [
+  {
+    ask: "Hi! How do you say **Thank you** in Swahili?",
+    suggest: "Unasema ASANTE",
+    reply: "Oh, **Asante**! That's nice. I will use it today 😊",
+  },
+  {
+    ask: "Nice! And what about **Hello, how are you?**",
+    suggest: "Unasema HABARI YAKO",
+    reply: "**Habari yako** — I love how it sounds! Let me write it down.",
+  },
+  {
+    ask: "Great teacher! How do I say **I am fine** when someone asks me?",
+    suggest: "Jibu ni NZURI, ASANTE",
+    reply: "So: Habari yako? — **Nzuri, asante**. Perfect! 🙌",
+  },
+  {
+    ask: "One more please 🙏 How do you say **You are welcome**?",
+    suggest: "Unasema KARIBU",
+    reply: "**Karibu**! Such a warm word. Swahili is beautiful.",
+  },
+  {
+    ask: "Last one — how do I say **Goodbye, see you later**?",
+    suggest: "Unasema KWAHERI, TUTAONANA",
+    reply: "**Kwaheri, tutaonana**! Asante sana my teacher — sending your payment now 💸",
+  },
+];
+
+function Tagged({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <b key={i} className="gold-text">
+            {part.slice(2, -2)}
+          </b>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -58,18 +118,24 @@ type Guest = (typeof guests)[number];
 
 function Index() {
   const [online, setOnline] = useState(21980);
-  const [balance, setBalance] = useState(148500);
+  const [balance, setBalance] = useState(0);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [showRegisterGate, setShowRegisterGate] = useState(false);
   const [chatGuest, setChatGuest] = useState<Guest | null>(null);
+  const [paid, setPaid] = useState<{ guest: Guest; amount: number } | null>(null);
+  const [shownTestimonials, setShownTestimonials] = useState(testimonials.slice(0, 3));
+
+  useEffect(() => {
+    setShownTestimonials(pickThree());
+  }, []);
 
   useEffect(() => {
     const t = setInterval(() => {
       setOnline((n) => n + Math.floor(Math.random() * 5) - 2);
-      setBalance((b) => b + Math.floor(Math.random() * 2500));
     }, 3000);
     return () => clearInterval(t);
   }, []);
+
 
   return (
     <div className="min-h-screen">
@@ -110,8 +176,9 @@ function Index() {
       </header>
 
       {/* HERO */}
-      <section className="mx-auto mt-8 grid max-w-6xl gap-10 px-4 md:mt-16 md:grid-cols-[1.15fr_.85fr]">
-        <div>
+      <section className="mx-auto mt-8 max-w-6xl px-4 md:mt-16">
+        <div className="max-w-3xl">
+
           <div className="inline-flex items-center gap-2 rounded-full gold-border bg-black/30 px-3 py-1 text-xs">
             <span className="live-dot inline-block h-2 w-2 rounded-full bg-[oklch(0.8_0.18_140)]" />
             <span className="tabular-nums font-semibold">{online.toLocaleString()}</span>
@@ -151,43 +218,8 @@ function Index() {
             <Stat label="Kiwango" value="14.5K" sub="TZS mtaji" />
           </div>
         </div>
-
-        {/* Smaller video card */}
-        <div className="flex items-center justify-center">
-          <div className="float-anim glass w-[220px] rounded-[28px] p-3 sm:w-[240px]">
-            <div className="rounded-2xl bg-black/60 p-2">
-              <div className="flex items-center gap-2 px-1 pb-2">
-                <img src={logoAsset.url} alt="" className="h-6 w-6 rounded-full bg-white/90 object-contain p-0.5" />
-                <div className="text-[11px] font-semibold">SWAHILI-PAYCHAT</div>
-              </div>
-              <a
-                href="https://www.youtube.com/shorts/GeDazfyq7Wc"
-                target="_blank"
-                rel="noreferrer"
-                className="relative block overflow-hidden rounded-xl"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80"
-                  alt="Video ya maelekezo"
-                  className="h-[280px] w-full object-cover"
-                />
-                <div className="absolute inset-0 grid place-items-center bg-black/25">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-[var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]">
-                    ▶
-                  </div>
-                </div>
-                <div className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px]">
-                  <span className="live-dot mr-1 inline-block h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.18_140)]" />
-                  LIVE
-                </div>
-              </a>
-              <div className="mt-2 px-1 text-[11px] text-muted-foreground">
-                Tazama maelekezo ya hatua kwa hatua.
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
+
 
       {/* TESTIMONIALS */}
       <section className="mx-auto mt-16 max-w-6xl px-4 md:mt-20">
@@ -198,7 +230,7 @@ function Index() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((t) => (
+          {shownTestimonials.map((t) => (
             <div key={t.name} className="glass rounded-2xl p-5">
               <div className="flex items-center gap-3">
                 <img src={t.img} alt={t.name} className="h-12 w-12 rounded-full object-cover gold-border" />
@@ -312,23 +344,8 @@ function Index() {
             <a href={REGISTER_LINK} target="_blank" rel="noreferrer" className="btn-gold rounded-xl px-6 py-3 text-sm">
               Jisajili sasa →
             </a>
-            <a
-              href={GROUP_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl gold-border bg-black/30 px-6 py-3 text-sm font-semibold hover:bg-black/50"
-            >
-              Jiunge Group ya WhatsApp
-            </a>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl gold-border bg-black/30 px-6 py-3 text-sm font-semibold hover:bg-black/50"
-            >
-              📞 WhatsApp: {WHATSAPP_DISPLAY}
-            </a>
           </div>
+
         </div>
       </section>
 
@@ -336,16 +353,8 @@ function Index() {
         © {new Date().getFullYear()} <span className="gold-text font-semibold">Swahili-paychat</span> — Fundisha, ulipwe.
       </footer>
 
-      {/* Floating WhatsApp */}
-      <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}`}
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white shadow-[var(--shadow-gold)] hover:scale-105 transition"
-        aria-label="WhatsApp"
-      >
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.02 0C5.39 0 .02 5.37.02 12c0 2.11.55 4.17 1.6 6L0 24l6.2-1.62A11.98 11.98 0 0 0 12.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.5-8.52ZM12.02 22c-1.86 0-3.68-.5-5.27-1.44l-.38-.22-3.68.96.98-3.59-.25-.37A9.94 9.94 0 0 1 2.02 12C2.02 6.48 6.5 2 12.02 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22.02 12c0 5.52-4.48 10-10 10Zm5.47-7.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.5 1.69.64.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" /></svg>
-      </a>
+      {/* Floating WhatsApp with options */}
+      <WhatsAppFab />
 
       {/* WITHDRAW MODAL */}
       {withdrawOpen && (
@@ -363,7 +372,28 @@ function Index() {
       {showRegisterGate && <RegisterGate onClose={() => setShowRegisterGate(false)} />}
 
       {/* CHAT MODAL */}
-      {chatGuest && <ChatWindow guest={chatGuest} onClose={() => setChatGuest(null)} />}
+      {chatGuest && (
+        <ChatWindow
+          guest={chatGuest}
+          onClose={() => setChatGuest(null)}
+          onComplete={(g) => {
+            const amount = Number(g.tzs.replace(/,/g, ""));
+            setBalance((b) => b + amount);
+            setChatGuest(null);
+            setPaid({ guest: g, amount });
+          }}
+        />
+      )}
+
+      {/* PAID POPUP */}
+      {paid && (
+        <PaidModal
+          guest={paid.guest}
+          amount={paid.amount}
+          onClose={() => setPaid(null)}
+        />
+      )}
+
     </div>
   );
 }
@@ -518,17 +548,46 @@ function RegisterGate({ onClose }: { onClose: () => void }) {
   );
 }
 
-function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
+function ChatWindow({
+  guest,
+  onClose,
+  onComplete,
+}: {
+  guest: Guest;
+  onClose: () => void;
+  onComplete: (g: Guest) => void;
+}) {
   const [messages, setMessages] = useState<{ from: "them" | "me"; text: string }[]>([
-    { from: "them", text: guest.intro },
+    { from: "them", text: `${guest.intro} ${chatScript[0].ask}` },
   ]);
+  const [turn, setTurn] = useState(0); // idadi ya majibu ya user
   const [draft, setDraft] = useState("");
+  const [typing, setTyping] = useState(false);
+
+  const done = turn >= chatScript.length;
 
   const send = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!draft.trim()) return;
-    setMessages((m) => [...m, { from: "me", text: draft }]);
+    const text = draft.trim();
+    if (!text || typing || done) return;
+    const next = turn + 1;
+    setMessages((m) => [...m, { from: "me", text }]);
     setDraft("");
+    setTurn(next);
+    setTyping(true);
+
+    window.setTimeout(() => {
+      setTyping(false);
+      if (next < chatScript.length) {
+        setMessages((m) => [
+          ...m,
+          { from: "them", text: `${chatScript[next - 1].reply} ${chatScript[next].ask}` },
+        ]);
+      } else {
+        setMessages((m) => [...m, { from: "them", text: chatScript[next - 1].reply }]);
+        window.setTimeout(() => onComplete(guest), 1200);
+      }
+    }, 1400);
   };
 
   return (
@@ -542,8 +601,11 @@ function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
           </div>
           <div className="flex items-center gap-1.5 text-xs text-[oklch(0.8_0.18_140)]">
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.18_140)]" />
-            online sasa
+            {typing ? "anaandika…" : "online sasa"}
           </div>
+        </div>
+        <div className="rounded-full gold-border bg-black/40 px-2.5 py-1 text-[10px] font-semibold">
+          {Math.min(turn, chatScript.length)}/{chatScript.length}
         </div>
         <button
           onClick={onClose}
@@ -565,27 +627,149 @@ function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
                 : "ml-auto bg-[var(--gradient-gold)] text-primary-foreground"
             }`}
           >
-            {m.text}
+            <Tagged text={m.text} />
           </div>
         ))}
+        {typing && (
+          <div className="max-w-[60%] rounded-2xl gold-border bg-black/40 px-4 py-2.5 text-sm text-muted-foreground">
+            {guest.name.split(" ")[0]} anaandika…
+          </div>
+        )}
       </div>
 
       {/* Composer */}
+      {!done && !typing && (
+        <div className="px-3 pb-1 text-[11px] text-muted-foreground">
+          💡 Pendekezo: <button type="button" onClick={() => setDraft(chatScript[turn].suggest)} className="gold-text font-semibold underline">{chatScript[turn].suggest}</button>
+        </div>
+      )}
       <form onSubmit={send} className="glass flex items-center gap-2 border-t border-[color:var(--border)] px-3 py-3">
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Andika ujumbe wako..."
-          className="flex-1 rounded-full gold-border bg-black/40 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)]"
+          disabled={done}
+          className="flex-1 rounded-full gold-border bg-black/40 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)] disabled:opacity-50"
         />
         <button
           type="submit"
-          className="grid h-11 w-11 place-items-center rounded-full bg-[var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
-          aria-label="Tuma"
+          disabled={!draft.trim() || typing || done}
+          className="btn-gold flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold disabled:opacity-40"
         >
-          ➤
+          Send ➤
         </button>
       </form>
     </div>
   );
 }
+
+function PaidModal({ guest, amount, onClose }: { guest: Guest; amount: number; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[70] grid place-items-center bg-black/85 px-4" onClick={onClose}>
+      <div className="glass w-full max-w-md rounded-3xl gold-border p-6 text-center" onClick={(e) => e.stopPropagation()}>
+        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[oklch(0.68_0.17_150)]/20 text-4xl ring-4 ring-[oklch(0.68_0.17_150)]/40">
+          ✅
+        </div>
+        <h3 className="mt-4 text-2xl font-bold">Umelipwa!</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Mazungumzo yako na <b className="gold-text">{guest.name}</b> yamekamilika.
+        </p>
+
+        <div className="mt-5 rounded-2xl gold-border bg-black/40 p-5">
+          <div className="text-[11px] uppercase tracking-widest text-[oklch(0.8_0.18_140)]">Malipo yako</div>
+          <div className="mt-1 text-3xl font-bold tabular-nums text-[oklch(0.8_0.18_140)]">
+            +{amount.toLocaleString()} TZS
+          </div>
+          <div className="mt-1 text-xs text-muted-foreground">≈ {guest.price} USD</div>
+        </div>
+
+        <div className="mt-4 rounded-2xl bg-black/30 p-4 text-left">
+          <div className="text-center font-bold gold-text">Endelea Kuchat na Kulipwa</div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Umefikia mwisho wa mazungumzo ya bure. Jisajili sasa kwa mtaji wa{" "}
+            <b className="gold-text">TSh 14,500</b> tu ili:
+          </p>
+          <ul className="mt-3 space-y-1.5 text-sm">
+            <li>✅ Uendelee kuchat na wageni bila kikomo.</li>
+            <li>✅ Uanze kulipwa kwa kila mazungumzo.</li>
+            <li>✅ Utoe pesa yako M-Pesa, Airtel, Halopesa, Mix by Yas.</li>
+          </ul>
+        </div>
+
+        <a
+          href={REGISTER_LINK}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-gold mt-5 block rounded-xl py-3 text-sm font-bold"
+        >
+          🟢 JISAJILI SASA →
+        </a>
+        <button
+          onClick={onClose}
+          className="mt-3 w-full rounded-xl gold-border bg-black/40 py-2.5 text-sm font-semibold hover:bg-black/60"
+        >
+          Funga
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function WhatsAppFab() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+      {open && (
+        <div className="w-64 overflow-hidden rounded-2xl glass gold-border">
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 border-b border-[color:var(--border)] px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white">
+              <WaIcon size={18} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">Customer Service</span>
+              <span className="block text-[11px] text-muted-foreground">Ongea na msaidizi · {WHATSAPP_DISPLAY}</span>
+            </span>
+          </a>
+          <a
+            href={GROUP_LINK}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white">
+              <WaIcon size={18} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">JOIN GROUP</span>
+              <span className="block text-[11px] text-muted-foreground">Ingia kwenye group letu</span>
+            </span>
+          </a>
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white shadow-[var(--shadow-gold)] transition hover:scale-105"
+        aria-label="WhatsApp"
+        aria-expanded={open}
+      >
+        {open ? <span className="text-2xl leading-none">✕</span> : <WaIcon size={26} />}
+      </button>
+    </div>
+  );
+}
+
+function WaIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+      <path d="M20.52 3.48A11.94 11.94 0 0 0 12.02 0C5.39 0 .02 5.37.02 12c0 2.11.55 4.17 1.6 6L0 24l6.2-1.62A11.98 11.98 0 0 0 12.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.5-8.52ZM12.02 22c-1.86 0-3.68-.5-5.27-1.44l-.38-.22-3.68.96.98-3.59-.25-.37A9.94 9.94 0 0 1 2.02 12C2.02 6.48 6.5 2 12.02 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22.02 12c0 5.52-4.48 10-10 10Zm5.47-7.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.5 1.69.64.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" />
+    </svg>
+  );
+}
+
