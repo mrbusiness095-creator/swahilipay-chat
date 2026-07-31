@@ -38,7 +38,67 @@ const testimonials = [
   { name: "Neema J.", city: "Dar es Salaam", img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80", text: "Nimelipwa mara 3 wiki hii kupitia M-Pesa. Kazi ni rahisi — kuchat tu na kufundisha maneno ya Kiswahili!", earned: "185,000 TZS" },
   { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80", text: "Nilianza kwa mtaji wa 14,500 TZS. Mwezi mmoja nimeshavuka 500,000 TZS. Swahili-paychat ni halali!", earned: "512,000 TZS" },
   { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80", text: "Napenda kwa sababu naweza kufanya kazi nikiwa nyumbani. Wageni ni wapole na malipo yanakuja Airtel haraka.", earned: "263,500 TZS" },
+  { name: "Shadrich M.", city: "Dodoma", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80", text: "Mazungumzo matano tu kwa siku yananitosha kulipa kodi ya nyumba. Halopesa inaingia dakika chache.", earned: "342,000 TZS" },
+  { name: "Queen B.", city: "Mbeya", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80", text: "Nilikuwa sina kazi. Sasa nafundisha wazungu maneno kama ASANTE na KARIBU na nalipwa kila siku.", earned: "228,400 TZS" },
+  { name: "Kelvin M.", city: "Tanga", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80", text: "Mix by Yas yangu inapokea malipo bila usumbufu. Wageni wapo wengi masaa yote ya usiku na mchana.", earned: "410,900 TZS" },
+  { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80", text: "Kila mazungumzo yanaisha nalipwa papo hapo. Sikuamini mpaka nilipopokea SMS ya M-Pesa.", earned: "156,700 TZS" },
+  { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&auto=format&fit=crop&q=80", text: "Naitumia simu yangu tu. Nafundisha Kiswahili, wanafurahi, na mimi napata pesa ya matumizi.", earned: "298,300 TZS" },
 ];
+
+function pickThree() {
+  const pool = [...testimonials];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, 3);
+}
+
+/** Mazungumzo halisi: mgeni anauliza, mtumiaji anafundisha (maneno yametiwa alama **neno**) */
+const chatScript: { ask: string; suggest: string; reply: string }[] = [
+  {
+    ask: "Hi! How do you say **Thank you** in Swahili?",
+    suggest: "Unasema ASANTE",
+    reply: "Oh, **Asante**! That's nice. I will use it today 😊",
+  },
+  {
+    ask: "Nice! And what about **Hello, how are you?**",
+    suggest: "Unasema HABARI YAKO",
+    reply: "**Habari yako** — I love how it sounds! Let me write it down.",
+  },
+  {
+    ask: "Great teacher! How do I say **I am fine** when someone asks me?",
+    suggest: "Jibu ni NZURI, ASANTE",
+    reply: "So: Habari yako? — **Nzuri, asante**. Perfect! 🙌",
+  },
+  {
+    ask: "One more please 🙏 How do you say **You are welcome**?",
+    suggest: "Unasema KARIBU",
+    reply: "**Karibu**! Such a warm word. Swahili is beautiful.",
+  },
+  {
+    ask: "Last one — how do I say **Goodbye, see you later**?",
+    suggest: "Unasema KWAHERI, TUTAONANA",
+    reply: "**Kwaheri, tutaonana**! Asante sana my teacher — sending your payment now 💸",
+  },
+];
+
+function Tagged({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <b key={i} className="gold-text">
+            {part.slice(2, -2)}
+          </b>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
