@@ -548,17 +548,46 @@ function RegisterGate({ onClose }: { onClose: () => void }) {
   );
 }
 
-function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
+function ChatWindow({
+  guest,
+  onClose,
+  onComplete,
+}: {
+  guest: Guest;
+  onClose: () => void;
+  onComplete: (g: Guest) => void;
+}) {
   const [messages, setMessages] = useState<{ from: "them" | "me"; text: string }[]>([
-    { from: "them", text: guest.intro },
+    { from: "them", text: `${guest.intro} ${chatScript[0].ask}` },
   ]);
+  const [turn, setTurn] = useState(0); // idadi ya majibu ya user
   const [draft, setDraft] = useState("");
+  const [typing, setTyping] = useState(false);
+
+  const done = turn >= chatScript.length;
 
   const send = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!draft.trim()) return;
-    setMessages((m) => [...m, { from: "me", text: draft }]);
+    const text = draft.trim();
+    if (!text || typing || done) return;
+    const next = turn + 1;
+    setMessages((m) => [...m, { from: "me", text }]);
     setDraft("");
+    setTurn(next);
+    setTyping(true);
+
+    window.setTimeout(() => {
+      setTyping(false);
+      if (next < chatScript.length) {
+        setMessages((m) => [
+          ...m,
+          { from: "them", text: `${chatScript[next - 1].reply} ${chatScript[next].ask}` },
+        ]);
+      } else {
+        setMessages((m) => [...m, { from: "them", text: chatScript[next - 1].reply }]);
+        window.setTimeout(() => onComplete(guest), 1200);
+      }
+    }, 1400);
   };
 
   return (
@@ -572,8 +601,11 @@ function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
           </div>
           <div className="flex items-center gap-1.5 text-xs text-[oklch(0.8_0.18_140)]">
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.18_140)]" />
-            online sasa
+            {typing ? "anaandika…" : "online sasa"}
           </div>
+        </div>
+        <div className="rounded-full gold-border bg-black/40 px-2.5 py-1 text-[10px] font-semibold">
+          {Math.min(turn, chatScript.length)}/{chatScript.length}
         </div>
         <button
           onClick={onClose}
@@ -595,27 +627,149 @@ function ChatWindow({ guest, onClose }: { guest: Guest; onClose: () => void }) {
                 : "ml-auto bg-[var(--gradient-gold)] text-primary-foreground"
             }`}
           >
-            {m.text}
+            <Tagged text={m.text} />
           </div>
         ))}
+        {typing && (
+          <div className="max-w-[60%] rounded-2xl gold-border bg-black/40 px-4 py-2.5 text-sm text-muted-foreground">
+            {guest.name.split(" ")[0]} anaandika…
+          </div>
+        )}
       </div>
 
       {/* Composer */}
+      {!done && !typing && (
+        <div className="px-3 pb-1 text-[11px] text-muted-foreground">
+          💡 Pendekezo: <button type="button" onClick={() => setDraft(chatScript[turn].suggest)} className="gold-text font-semibold underline">{chatScript[turn].suggest}</button>
+        </div>
+      )}
       <form onSubmit={send} className="glass flex items-center gap-2 border-t border-[color:var(--border)] px-3 py-3">
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Andika ujumbe wako..."
-          className="flex-1 rounded-full gold-border bg-black/40 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)]"
+          disabled={done}
+          className="flex-1 rounded-full gold-border bg-black/40 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[color:var(--gold)] disabled:opacity-50"
         />
         <button
           type="submit"
-          className="grid h-11 w-11 place-items-center rounded-full bg-[var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
-          aria-label="Tuma"
+          disabled={!draft.trim() || typing || done}
+          className="btn-gold flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold disabled:opacity-40"
         >
-          ➤
+          Send ➤
         </button>
       </form>
     </div>
   );
 }
+
+function PaidModal({ guest, amount, onClose }: { guest: Guest; amount: number; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[70] grid place-items-center bg-black/85 px-4" onClick={onClose}>
+      <div className="glass w-full max-w-md rounded-3xl gold-border p-6 text-center" onClick={(e) => e.stopPropagation()}>
+        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[oklch(0.68_0.17_150)]/20 text-4xl ring-4 ring-[oklch(0.68_0.17_150)]/40">
+          ✅
+        </div>
+        <h3 className="mt-4 text-2xl font-bold">Umelipwa!</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Mazungumzo yako na <b className="gold-text">{guest.name}</b> yamekamilika.
+        </p>
+
+        <div className="mt-5 rounded-2xl gold-border bg-black/40 p-5">
+          <div className="text-[11px] uppercase tracking-widest text-[oklch(0.8_0.18_140)]">Malipo yako</div>
+          <div className="mt-1 text-3xl font-bold tabular-nums text-[oklch(0.8_0.18_140)]">
+            +{amount.toLocaleString()} TZS
+          </div>
+          <div className="mt-1 text-xs text-muted-foreground">≈ {guest.price} USD</div>
+        </div>
+
+        <div className="mt-4 rounded-2xl bg-black/30 p-4 text-left">
+          <div className="text-center font-bold gold-text">Endelea Kuchat na Kulipwa</div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Umefikia mwisho wa mazungumzo ya bure. Jisajili sasa kwa mtaji wa{" "}
+            <b className="gold-text">TSh 14,500</b> tu ili:
+          </p>
+          <ul className="mt-3 space-y-1.5 text-sm">
+            <li>✅ Uendelee kuchat na wageni bila kikomo.</li>
+            <li>✅ Uanze kulipwa kwa kila mazungumzo.</li>
+            <li>✅ Utoe pesa yako M-Pesa, Airtel, Halopesa, Mix by Yas.</li>
+          </ul>
+        </div>
+
+        <a
+          href={REGISTER_LINK}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-gold mt-5 block rounded-xl py-3 text-sm font-bold"
+        >
+          🟢 JISAJILI SASA →
+        </a>
+        <button
+          onClick={onClose}
+          className="mt-3 w-full rounded-xl gold-border bg-black/40 py-2.5 text-sm font-semibold hover:bg-black/60"
+        >
+          Funga
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function WhatsAppFab() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+      {open && (
+        <div className="w-64 overflow-hidden rounded-2xl glass gold-border">
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 border-b border-[color:var(--border)] px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white">
+              <WaIcon size={18} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">Customer Service</span>
+              <span className="block text-[11px] text-muted-foreground">Ongea na msaidizi · {WHATSAPP_DISPLAY}</span>
+            </span>
+          </a>
+          <a
+            href={GROUP_LINK}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white">
+              <WaIcon size={18} />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">JOIN GROUP</span>
+              <span className="block text-[11px] text-muted-foreground">Ingia kwenye group letu</span>
+            </span>
+          </a>
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white shadow-[var(--shadow-gold)] transition hover:scale-105"
+        aria-label="WhatsApp"
+        aria-expanded={open}
+      >
+        {open ? <span className="text-2xl leading-none">✕</span> : <WaIcon size={26} />}
+      </button>
+    </div>
+  );
+}
+
+function WaIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+      <path d="M20.52 3.48A11.94 11.94 0 0 0 12.02 0C5.39 0 .02 5.37.02 12c0 2.11.55 4.17 1.6 6L0 24l6.2-1.62A11.98 11.98 0 0 0 12.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.5-8.52ZM12.02 22c-1.86 0-3.68-.5-5.27-1.44l-.38-.22-3.68.96.98-3.59-.25-.37A9.94 9.94 0 0 1 2.02 12C2.02 6.48 6.5 2 12.02 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22.02 12c0 5.52-4.48 10-10 10Zm5.47-7.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.5 1.69.64.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z" />
+    </svg>
+  );
+}
+
