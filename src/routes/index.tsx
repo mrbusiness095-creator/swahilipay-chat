@@ -752,7 +752,7 @@ function WhatsAppFab() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white shadow-[var(--shadow-gold)] transition hover:scale-105"
+        className={`grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.68_0.17_150)] text-white shadow-[var(--shadow-gold)] transition hover:scale-105 ${open ? "" : "wa-blink"}`}
         aria-label="WhatsApp"
         aria-expanded={open}
       >
