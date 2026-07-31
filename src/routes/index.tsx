@@ -36,13 +36,13 @@ const payouts = [
 
 const testimonials = [
   { name: "Neema J.", city: "Dar es Salaam", img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80", text: "Nimelipwa mara 3 wiki hii kupitia M-Pesa. Kazi ni rahisi — kuchat tu na kufundisha maneno ya Kiswahili!", earned: "185,000 TZS" },
-  { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80", text: "Nilianza kwa mtaji wa 14,500 TZS. Mwezi mmoja nimeshavuka 500,000 TZS. Swahili-paychat ni halali!", earned: "512,000 TZS" },
-  { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80", text: "Napenda kwa sababu naweza kufanya kazi nikiwa nyumbani. Wageni ni wapole na malipo yanakuja Airtel haraka.", earned: "263,500 TZS" },
-  { name: "Shadrich M.", city: "Dodoma", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80", text: "Mazungumzo matano tu kwa siku yananitosha kulipa kodi ya nyumba. Halopesa inaingia dakika chache.", earned: "342,000 TZS" },
-  { name: "Queen B.", city: "Mbeya", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80", text: "Nilikuwa sina kazi. Sasa nafundisha wazungu maneno kama ASANTE na KARIBU na nalipwa kila siku.", earned: "228,400 TZS" },
-  { name: "Kelvin M.", city: "Tanga", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80", text: "Mix by Yas yangu inapokea malipo bila usumbufu. Wageni wapo wengi masaa yote ya usiku na mchana.", earned: "410,900 TZS" },
-  { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80", text: "Kila mazungumzo yanaisha nalipwa papo hapo. Sikuamini mpaka nilipopokea SMS ya M-Pesa.", earned: "156,700 TZS" },
-  { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&auto=format&fit=crop&q=80", text: "Naitumia simu yangu tu. Nafundisha Kiswahili, wanafurahi, na mimi napata pesa ya matumizi.", earned: "298,300 TZS" },
+  { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=200&auto=format&fit=crop&q=80", text: "Nilianza kwa mtaji wa 14,500 TZS. Mwezi mmoja nimeshavuka 500,000 TZS. Swahili-paychat ni halali!", earned: "512,000 TZS" },
+  { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=200&auto=format&fit=crop&q=80", text: "Napenda kwa sababu naweza kufanya kazi nikiwa nyumbani. Wageni ni wapole na malipo yanakuja Airtel haraka.", earned: "263,500 TZS" },
+  { name: "Shadrich M.", city: "Dodoma", img: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=200&auto=format&fit=crop&q=80", text: "Mazungumzo matano tu kwa siku yananitosha kulipa kodi ya nyumba. Halopesa inaingia dakika chache.", earned: "342,000 TZS" },
+  { name: "Queen B.", city: "Mbeya", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=200&auto=format&fit=crop&q=80", text: "Nilikuwa sina kazi. Sasa nafundisha wazungu maneno kama ASANTE na KARIBU na nalipwa kila siku.", earned: "228,400 TZS" },
+  { name: "Kelvin M.", city: "Tanga", img: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&auto=format&fit=crop&q=80", text: "Mix by Yas yangu inapokea malipo bila usumbufu. Wageni wapo wengi masaa yote ya usiku na mchana.", earned: "410,900 TZS" },
+  { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1621784563330-caee0b138a00?w=200&auto=format&fit=crop&q=80", text: "Kila mazungumzo yanaisha nalipwa papo hapo. Sikuamini mpaka nilipopokea SMS ya M-Pesa.", earned: "156,700 TZS" },
+  { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=200&auto=format&fit=crop&q=80", text: "Naitumia simu yangu tu. Nafundisha Kiswahili, wanafurahi, na mimi napata pesa ya matumizi.", earned: "298,300 TZS" },
 ];
 
 function pickThree() {
