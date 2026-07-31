@@ -621,10 +621,11 @@ function ChatWindow({
         {messages.map((m, i) => (
           <div
             key={i}
+            style={m.from === "me" ? { background: "var(--gradient-gold)" } : undefined}
             className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
               m.from === "them"
                 ? "bg-black/40 gold-border"
-                : "ml-auto bg-[var(--gradient-gold)] text-primary-foreground"
+                : "ml-auto text-primary-foreground font-medium shadow-[var(--shadow-gold)]"
             }`}
           >
             <Tagged text={m.text} />
@@ -638,11 +639,7 @@ function ChatWindow({
       </div>
 
       {/* Composer */}
-      {!done && !typing && (
-        <div className="px-3 pb-1 text-[11px] text-muted-foreground">
-          💡 Pendekezo: <button type="button" onClick={() => setDraft(chatScript[turn].suggest)} className="gold-text font-semibold underline">{chatScript[turn].suggest}</button>
-        </div>
-      )}
+
       <form onSubmit={send} className="glass flex items-center gap-2 border-t border-[color:var(--border)] px-3 py-3">
         <input
           value={draft}
