@@ -219,6 +219,16 @@ function Index() {
             <Stat label="Kiwango" value="14.5K" sub="TZS mtaji" />
           </div>
         </div>
+
+        {/* Poster */}
+        <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl gold-border bg-black/30 p-2 shadow-2xl">
+          <img
+            src={posterAsset.url}
+            alt="Swahili-paychat — fundisha Kiswahili, ulipwe. Mtaji wa kuanzia 14,500 TZS"
+            className="w-full rounded-2xl"
+            loading="lazy"
+          />
+        </div>
       </section>
 
 
