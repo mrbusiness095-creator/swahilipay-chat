@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/paychat-logo.png.asset.json";
 
-const WHATSAPP_NUMBER = "255743871339";
-const WHATSAPP_DISPLAY = "0743 871 339";
+const WHATSAPP_NUMBER = "255761883444";
+const WHATSAPP_DISPLAY = "0761 883 444";
 const GROUP_LINK = "https://chat.whatsapp.com/HJR16xnRf53J54yvIrIJwA?s=cl&p=a&ilr=4&amv=3";
 const REGISTER_LINK = "https://kozenasite.site/register?ref=Salma255";
 
