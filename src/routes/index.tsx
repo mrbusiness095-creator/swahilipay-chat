@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/paychat-logo.png.asset.json";
+import posterAsset from "@/assets/swahili-paychat-poster.png.asset.json";
 
 const WHATSAPP_NUMBER = "255761883444";
 const WHATSAPP_DISPLAY = "0761 883 444";
