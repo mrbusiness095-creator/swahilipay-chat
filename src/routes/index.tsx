@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/paychat-logo.png.asset.json";
+import posterAsset from "@/assets/swahili-paychat-poster.png.asset.json";
 
-const WHATSAPP_NUMBER = "255743871339";
-const WHATSAPP_DISPLAY = "0743 871 339";
+const WHATSAPP_NUMBER = "255761883444";
+const WHATSAPP_DISPLAY = "0761 883 444";
 const GROUP_LINK = "https://chat.whatsapp.com/HJR16xnRf53J54yvIrIJwA?s=cl&p=a&ilr=4&amv=3";
 const REGISTER_LINK = "https://kozenasite.site/register?ref=Salma255";
 
@@ -217,6 +218,16 @@ function Index() {
             <Stat label="Payouts leo" value="4.2M" sub="TZS zimelipwa" />
             <Stat label="Kiwango" value="14.5K" sub="TZS mtaji" />
           </div>
+        </div>
+
+        {/* Poster */}
+        <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl gold-border bg-black/30 p-2 shadow-2xl">
+          <img
+            src={posterAsset.url}
+            alt="Swahili-paychat — fundisha Kiswahili, ulipwe. Mtaji wa kuanzia 14,500 TZS"
+            className="w-full rounded-2xl"
+            loading="lazy"
+          />
         </div>
       </section>
 
