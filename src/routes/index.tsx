@@ -7,6 +7,9 @@ const WHATSAPP_NUMBER = "255761883444";
 const WHATSAPP_DISPLAY = "0761 883 444";
 const GROUP_LINK = "https://chat.whatsapp.com/HJR16xnRf53J54yvIrIJwA?s=cl&p=a&ilr=4&amv=3";
 const REGISTER_LINK = "https://kozenasite.site/register?ref=Salma255";
+const SMS_NUMBER = "0743871339";
+/** Idadi ya majibu ya mtumiaji kabla ya pop-up */
+const CHAT_TURNS = 3;
 
 const guests = [
   { name: "Emma W.", country: "United Kingdom", flag: "🇬🇧", age: 24, status: "Looking to talk", price: "$14.5", tzs: "37,700", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80", intro: "Hi! I'm Emma from London. I'd love to learn Swahili!" },
@@ -575,7 +578,7 @@ function ChatWindow({
   const [draft, setDraft] = useState("");
   const [typing, setTyping] = useState(false);
 
-  const done = turn >= chatScript.length;
+  const done = turn >= CHAT_TURNS;
 
   const send = (e: React.FormEvent) => {
     e.preventDefault();
@@ -589,7 +592,7 @@ function ChatWindow({
 
     window.setTimeout(() => {
       setTyping(false);
-      if (next < chatScript.length) {
+      if (next < CHAT_TURNS) {
         setMessages((m) => [
           ...m,
           { from: "them", text: `${chatScript[next - 1].reply} ${chatScript[next].ask}` },
@@ -616,7 +619,7 @@ function ChatWindow({
           </div>
         </div>
         <div className="rounded-full gold-border bg-black/40 px-2.5 py-1 text-[10px] font-semibold">
-          {Math.min(turn, chatScript.length)}/{chatScript.length}
+          {Math.min(turn, CHAT_TURNS)}/{CHAT_TURNS}
         </div>
         <button
           onClick={onClose}
@@ -675,34 +678,23 @@ function PaidModal({ guest, amount, onClose }: { guest: Guest; amount: number; o
   return (
     <div className="fixed inset-0 z-[70] grid place-items-center bg-black/85 px-4" onClick={onClose}>
       <div className="glass w-full max-w-md rounded-3xl gold-border p-6 text-center" onClick={(e) => e.stopPropagation()}>
-        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[oklch(0.68_0.17_150)]/20 text-4xl ring-4 ring-[oklch(0.68_0.17_150)]/40">
-          ✅
+        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[var(--gradient-gold)] text-4xl shadow-[var(--shadow-gold)]">
+          🔒
         </div>
-        <h3 className="mt-4 text-2xl font-bold">Umelipwa!</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Mazungumzo yako na <b className="gold-text">{guest.name}</b> yamekamilika.
+        <h3 className="mt-4 text-2xl font-bold leading-tight">
+          Endelea Kuchat na <span className="gold-text">Kulipwa</span>
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Umefikia mwisho wa mazungumzo ya bure na <b className="gold-text">{guest.name}</b> (
+          {amount.toLocaleString()} TZS). Jisajili sasa kwa mtaji wa <b className="gold-text">TSh 14,500 Tu</b> ili:
         </p>
 
-        <div className="mt-5 rounded-2xl gold-border bg-black/40 p-5">
-          <div className="text-[11px] uppercase tracking-widest text-[oklch(0.8_0.18_140)]">Malipo yako</div>
-          <div className="mt-1 text-3xl font-bold tabular-nums text-[oklch(0.8_0.18_140)]">
-            +{amount.toLocaleString()} TZS
-          </div>
-          <div className="mt-1 text-xs text-muted-foreground">≈ {guest.price} USD</div>
-        </div>
+        <ul className="mt-5 space-y-2.5 text-left text-sm">
+          <li>✅ Uendelee kuchat na wageni bila kikomo kwa kuwafundisha Kiswahili.</li>
+          <li>✅ Uanze kulipwa kwa kila mazungumzo unayofanya.</li>
+          <li>✅ Upate huduma zote za SWAHILI-PAYCHAT.</li>
+        </ul>
 
-        <div className="mt-4 rounded-2xl bg-black/30 p-4 text-left">
-          <div className="text-center font-bold gold-text">Endelea Kuchat na Kulipwa</div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Umefikia mwisho wa mazungumzo ya bure. Jisajili sasa kwa mtaji wa{" "}
-            <b className="gold-text">TSh 14,500</b> tu ili:
-          </p>
-          <ul className="mt-3 space-y-1.5 text-sm">
-            <li>✅ Uendelee kuchat na wageni bila kikomo.</li>
-            <li>✅ Uanze kulipwa kwa kila mazungumzo.</li>
-            <li>✅ Utoe pesa yako M-Pesa, Airtel, Halopesa, Mix by Yas.</li>
-          </ul>
-        </div>
 
         <a
           href={REGISTER_LINK}
@@ -742,6 +734,18 @@ function WhatsAppFab() {
             <span className="leading-tight">
               <span className="block text-sm font-bold">Customer Service</span>
               <span className="block text-[11px] text-muted-foreground">Ongea na msaidizi · {WHATSAPP_DISPLAY}</span>
+            </span>
+          </a>
+          <a
+            href={`sms:${SMS_NUMBER}`}
+            className="flex items-center gap-3 border-b border-[color:var(--border)] px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--gradient-gold)] text-lg text-primary-foreground">
+              ✉️
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">SMS ya kawaida</span>
+              <span className="block text-[11px] text-muted-foreground">Tuma SMS · {SMS_NUMBER}</span>
             </span>
           </a>
           <a
