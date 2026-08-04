@@ -7,6 +7,9 @@ const WHATSAPP_NUMBER = "255761883444";
 const WHATSAPP_DISPLAY = "0761 883 444";
 const GROUP_LINK = "https://chat.whatsapp.com/HJR16xnRf53J54yvIrIJwA?s=cl&p=a&ilr=4&amv=3";
 const REGISTER_LINK = "https://kozenasite.site/register?ref=Salma255";
+const SMS_NUMBER = "0743871339";
+/** Idadi ya majibu ya mtumiaji kabla ya pop-up */
+const CHAT_TURNS = 3;
 
 const guests = [
   { name: "Emma W.", country: "United Kingdom", flag: "🇬🇧", age: 24, status: "Looking to talk", price: "$14.5", tzs: "37,700", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80", intro: "Hi! I'm Emma from London. I'd love to learn Swahili!" },
@@ -575,7 +578,7 @@ function ChatWindow({
   const [draft, setDraft] = useState("");
   const [typing, setTyping] = useState(false);
 
-  const done = turn >= chatScript.length;
+  const done = turn >= CHAT_TURNS;
 
   const send = (e: React.FormEvent) => {
     e.preventDefault();
@@ -589,7 +592,7 @@ function ChatWindow({
 
     window.setTimeout(() => {
       setTyping(false);
-      if (next < chatScript.length) {
+      if (next < CHAT_TURNS) {
         setMessages((m) => [
           ...m,
           { from: "them", text: `${chatScript[next - 1].reply} ${chatScript[next].ask}` },
@@ -616,7 +619,7 @@ function ChatWindow({
           </div>
         </div>
         <div className="rounded-full gold-border bg-black/40 px-2.5 py-1 text-[10px] font-semibold">
-          {Math.min(turn, chatScript.length)}/{chatScript.length}
+          {Math.min(turn, CHAT_TURNS)}/{CHAT_TURNS}
         </div>
         <button
           onClick={onClose}
