@@ -737,6 +737,18 @@ function WhatsAppFab() {
             </span>
           </a>
           <a
+            href={`sms:${SMS_NUMBER}`}
+            className="flex items-center gap-3 border-b border-[color:var(--border)] px-3 py-3 hover:bg-black/40"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--gradient-gold)] text-lg text-primary-foreground">
+              ✉️
+            </span>
+            <span className="leading-tight">
+              <span className="block text-sm font-bold">SMS ya kawaida</span>
+              <span className="block text-[11px] text-muted-foreground">Tuma SMS · {SMS_NUMBER}</span>
+            </span>
+          </a>
+          <a
             href={GROUP_LINK}
             target="_blank"
             rel="noreferrer"
