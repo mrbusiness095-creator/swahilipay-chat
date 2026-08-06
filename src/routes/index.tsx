@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import logoAsset from "@/assets/paychat-logo.png.asset.json";
-import posterAsset from "@/assets/swahili-paychat-poster.png.asset.json";
+import logoImg from "@/assets/swahili-paychat-logo.png";
+import posterImg from "@/assets/swahili-paychat-poster.png";
 
 const WHATSAPP_NUMBER = "255761883444";
 const WHATSAPP_DISPLAY = "0761 883 444";
@@ -214,7 +214,7 @@ function Index() {
         <nav className="glass mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3">
           <a href="#" className="flex min-w-0 items-center gap-2 sm:gap-3">
             <img
-              src={logoAsset.url}
+              src={logoImg}
               alt="Swahili-paychat logo"
               className="h-11 w-11 shrink-0 rounded-xl bg-white/90 object-contain p-0.5 shadow-[var(--shadow-gold)]"
             />
@@ -292,7 +292,7 @@ function Index() {
         {/* Poster */}
         <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl gold-border bg-black/30 p-2 shadow-2xl">
           <img
-            src={posterAsset.url}
+            src={posterImg}
             alt="Swahili-paychat — fundisha Kiswahili, ulipwe. Mtaji wa kuanzia 14,500 TZS"
             className="w-full rounded-2xl"
             loading="lazy"

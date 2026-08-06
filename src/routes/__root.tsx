@@ -84,13 +84,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Swahili-paychat — Wafundishe wazungu Kiswahili, ulipwe" },
       { property: "og:description", content: "Jiunge Swahili-paychat: fundisha wazungu Kiswahili na ulipwe kupitia M-Pesa, Airtel, Halopesa na Mix by Yas moja kwa moja kwenye simu yako." },
       { name: "twitter:description", content: "Jiunge Swahili-paychat: fundisha wazungu Kiswahili na ulipwe kupitia M-Pesa, Airtel, Halopesa na Mix by Yas moja kwa moja kwenye simu yako." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/XFqBTMmKXjQ3vqhSPRGeBcP7HSc2/social-images/social-1785305725030-156688.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/XFqBTMmKXjQ3vqhSPRGeBcP7HSc2/social-images/social-1785305725030-156688.webp" },
+      { property: "og:image", content: "https://swahilipay-chat.lovable.app/social-preview.png" },
+      { name: "twitter:image", content: "https://swahilipay-chat.lovable.app/social-preview.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
