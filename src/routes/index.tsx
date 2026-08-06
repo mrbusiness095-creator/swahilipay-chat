@@ -24,7 +24,24 @@ const guests = [
   { name: "Isabella R.", country: "Spain", flag: "🇪🇸", age: 28, status: "Looking to talk", price: "$13.7", tzs: "35,620", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80", intro: "Hola! I'm planning a trip to Zanzibar — help me!" },
   { name: "Ahmed F.", country: "UAE", flag: "🇦🇪", age: 37, status: "typing…", price: "$16.5", tzs: "42,900", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=400&auto=format&fit=crop&q=80", intro: "Marhaba! I do business in East Africa. Teach me!" },
   { name: "Priya S.", country: "India", flag: "🇮🇳", age: 27, status: "typing…", price: "$12.5", tzs: "32,500", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80", intro: "Namaste! I love learning new languages — Swahili next!" },
+  { name: "Olivia B.", country: "Australia", flag: "🇦🇺", age: 30, status: "Looking to talk", price: "$15.2", tzs: "39,520", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80", intro: "Hey mate! I'm visiting Serengeti soon — teach me Swahili!" },
+  { name: "Thomas R.", country: "Canada", flag: "🇨🇦", age: 38, status: "typing…", price: "$15.8", tzs: "41,080", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80", intro: "Hi from Toronto! I want to learn a few Swahili phrases." },
+  { name: "Elena V.", country: "Sweden", flag: "🇸🇪", age: 27, status: "Looking to talk", price: "$14.9", tzs: "38,740", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&auto=format&fit=crop&q=80", intro: "Hej! Swahili sounds so warm. Can you teach me?" },
+  { name: "Marco P.", country: "Switzerland", flag: "🇨🇭", age: 43, status: "typing…", price: "$17", tzs: "44,200", img: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&auto=format&fit=crop&q=80", intro: "Grüezi! I need Swahili for my safari trip." },
+  { name: "Chloe D.", country: "Belgium", flag: "🇧🇪", age: 25, status: "Looking to talk", price: "$13.9", tzs: "36,140", img: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400&auto=format&fit=crop&q=80", intro: "Hallo! Teach me some daily Swahili words please." },
+  { name: "Ryan H.", country: "Ireland", flag: "🇮🇪", age: 32, status: "typing…", price: "$14.6", tzs: "37,960", img: "https://images.unsplash.com/photo-1521119989659-a83eee488004?w=400&auto=format&fit=crop&q=80", intro: "Hello! Ryan here from Dublin, ready to learn." },
+  { name: "Nadia H.", country: "Norway", flag: "🇳🇴", age: 29, status: "Looking to talk", price: "$16.2", tzs: "42,120", img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&auto=format&fit=crop&q=80", intro: "Hei! I want to speak Swahili with locals." },
+  { name: "Peter M.", country: "Austria", flag: "🇦🇹", age: 36, status: "typing…", price: "$15", tzs: "39,000", img: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&auto=format&fit=crop&q=80", intro: "Servus! Let's start with greetings in Swahili." },
 ];
+
+function shuffle<T>(arr: T[]) {
+  const pool = [...arr];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool;
+}
 
 const payouts = [
   { net: "M-Pesa", user: "Shadrich M.", amount: "+45,000", when: "sekunde 2 zilizopita" },
