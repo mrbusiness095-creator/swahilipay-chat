@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import logoAsset from "@/assets/paychat-logo.png.asset.json";
 import posterAsset from "@/assets/swahili-paychat-poster.png.asset.json";
 
@@ -65,6 +66,39 @@ const testimonials = [
   { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1621784563330-caee0b138a00?w=200&auto=format&fit=crop&q=80", text: "Kila mazungumzo yanaisha nalipwa papo hapo. Sikuamini mpaka nilipopokea SMS ya M-Pesa.", earned: "156,700 TZS" },
   { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=200&auto=format&fit=crop&q=80", text: "Naitumia simu yangu tu. Nafundisha Kiswahili, wanafurahi, na mimi napata pesa ya matumizi.", earned: "298,300 TZS" },
 ];
+
+
+/** Malipo ya wanachama yanayoonyeshwa kama toast */
+const payoutFeed = [
+  { name: "Neema J.", city: "Dar es Salaam", img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80", msg: "Nimemaliza kuchat na Emma, nimelipwa papo hapo!", amount: "37,700 TZS" },
+  { name: "Baraka A.", city: "Mwanza", img: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=200&auto=format&fit=crop&q=80", msg: "Somo moja tu na Lucas — M-Pesa imeingia dakika 2.", amount: "33,280 TZS" },
+  { name: "Amina K.", city: "Arusha", img: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=200&auto=format&fit=crop&q=80", msg: "Nimemfundisha David maneno ASANTE na KARIBU.", amount: "41,600 TZS" },
+  { name: "Shadrich M.", city: "Dodoma", img: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=200&auto=format&fit=crop&q=80", msg: "Halopesa imeingia baada ya kuchat na Sophie.", amount: "36,920 TZS" },
+  { name: "Queen B.", city: "Mbeya", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=200&auto=format&fit=crop&q=80", msg: "Kuchat na Maria kulikuwa rahisi sana, nimelipwa!", amount: "35,100 TZS" },
+  { name: "Kelvin M.", city: "Tanga", img: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&auto=format&fit=crop&q=80", msg: "Mix by Yas imepokea malipo ya somo la Kenji.", amount: "36,400 TZS" },
+  { name: "Halima S.", city: "Zanzibar", img: "https://images.unsplash.com/photo-1621784563330-caee0b138a00?w=200&auto=format&fit=crop&q=80", msg: "Nimemaliza mazungumzo na Anna — pesa zimeingia.", amount: "37,440 TZS" },
+  { name: "Izack P.", city: "Morogoro", img: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=200&auto=format&fit=crop&q=80", msg: "Airtel Money imeingia baada ya kuchat na Ahmed.", amount: "42,900 TZS" },
+  { name: "Zainabu H.", city: "Iringa", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80", msg: "Nimefundisha Priya salamu za Kiswahili, nimelipwa.", amount: "32,500 TZS" },
+  { name: "Godfrey L.", city: "Mtwara", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80", msg: "Olivia amenishukuru na malipo yameingia haraka.", amount: "39,520 TZS" },
+];
+
+function showPayoutToast(p: (typeof payoutFeed)[number]) {
+  toast.custom(() => (
+    <div className="glass gold-border flex w-[330px] max-w-[88vw] items-start gap-3 rounded-2xl p-3 shadow-2xl">
+      <img src={p.img} alt={p.name} className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-[hsl(var(--gold,45_90%_55%))]/60" />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center justify-between gap-2">
+          <span className="truncate text-sm font-bold">{p.name}</span>
+          <span className="shrink-0 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-bold text-emerald-400">
+            +{p.amount}
+          </span>
+        </div>
+        <p className="text-[11px] opacity-60">{p.city}</p>
+        <p className="mt-1 text-xs leading-snug opacity-90">“{p.msg}”</p>
+      </div>
+    </div>
+  ), { duration: 5000 });
+}
 
 function pickThree() {
   const pool = [...testimonials];
@@ -150,6 +184,19 @@ function Index() {
   useEffect(() => {
     setShownTestimonials(pickThree());
     setShownGuests(shuffle(guests).slice(0, 8));
+  }, []);
+
+  useEffect(() => {
+    let i = Math.floor(Math.random() * payoutFeed.length);
+    const first = setTimeout(() => showPayoutToast(payoutFeed[i % payoutFeed.length]!), 3500);
+    const loop = setInterval(() => {
+      i += 1;
+      showPayoutToast(payoutFeed[i % payoutFeed.length]!);
+    }, 9000);
+    return () => {
+      clearTimeout(first);
+      clearInterval(loop);
+    };
   }, []);
 
   useEffect(() => {
