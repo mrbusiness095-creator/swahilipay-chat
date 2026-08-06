@@ -290,11 +290,11 @@ function Index() {
             <div className="text-xs uppercase tracking-[.25em] text-[color:var(--gold)]">Chagua wa kuchat naye</div>
             <h2 className="mt-1 text-2xl font-bold md:text-3xl">Wageni waliopo online</h2>
           </div>
-          <div className="text-sm text-muted-foreground">{guests.length} watu wanapatikana</div>
+          <div className="text-sm text-muted-foreground">{shownGuests.length} watu wanapatikana</div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {guests.map((g) => (
+          {shownGuests.map((g) => (
             <div key={g.name} className="glass overflow-hidden rounded-2xl">
               <div className="relative">
                 <img src={g.img} alt={g.name} className="h-40 w-full object-cover" />
