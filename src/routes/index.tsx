@@ -145,9 +145,11 @@ function Index() {
   const [chatGuest, setChatGuest] = useState<Guest | null>(null);
   const [paid, setPaid] = useState<{ guest: Guest; amount: number } | null>(null);
   const [shownTestimonials, setShownTestimonials] = useState(testimonials.slice(0, 3));
+  const [shownGuests, setShownGuests] = useState(guests.slice(0, 8));
 
   useEffect(() => {
     setShownTestimonials(pickThree());
+    setShownGuests(shuffle(guests).slice(0, 8));
   }, []);
 
   useEffect(() => {
